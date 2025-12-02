@@ -1,0 +1,8 @@
+name: slides_infrastructure
+
+services:
+    tofu:
+        build: .
+        env_file: .env
+        volumes:
+            - .:/src
