@@ -52,7 +52,7 @@ jobs:
       BUDGET_NOTIFICATION_EMAIL: ${{ secrets.BUDGET_NOTIFICATION_EMAIL }}
       OWNER_OBJECT_ID: ${{ secrets.OWNER_OBJECT_ID }}
       SECOND_OWNER_OBJECT_ID: ${{ secrets.SECOND_OWNER_OBJECT_ID }}
-      ARM_OBJECT_ID: ${{ secrets.AZURE_GITHUBACTIONSMANAGEDIDENTITY_SP_OBJECT_ID }}
+      ARM_OBJECT_ID: ${{ secrets.MANAGED_IDENTITY_GITHUB_ACTIONS_OBJECT_ID }}
     defaults:
       run:
         working-directory: infrastructure
