@@ -25,14 +25,14 @@ resource "azurerm_container_app" "ChatGMP" {
   revision_mode = "Single"
 
   # Never change the image of the container, as this is done in github actions!
-  # TBD: uncomment the lifecycle blkc, when the infrastructure is deployed and working!
-  lifecycle {
-    ignore_changes = [template[0].container[0], secret, revision_mode] #  ingress
-  }
+  # TBD: uncomment the lifecycle block, when the infrastructure is deployed and working!
+  # lifecycle {
+  #   ignore_changes = [template[0].container[0], secret, revision_mode] #  ingress
+  # }
 
   template {
     container {
-      name  = "revealjs"
+      name  = "chatgmp"
       image = "mcr.microsoft.com/azuredocs/containerapps-helloworld:latest"
       # Increase if the container side or CPU demands increase!
       cpu    = 0.25    # 0.5
