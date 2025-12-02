@@ -26,9 +26,9 @@ resource "azurerm_container_app" "ChatGMP" {
 
   # Never change the image of the container, as this is done in github actions!
   # TBD: uncomment the lifecycle block, when the infrastructure is deployed and working!
-  lifecycle {
-    ignore_changes = [template[0].container[0], secret, revision_mode] #  ingress
-  }
+  # lifecycle {
+  #   ignore_changes = [template[0].container[0], secret, revision_mode] #  ingress
+  # }
 
   template {
     container {
