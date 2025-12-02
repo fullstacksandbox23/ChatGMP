@@ -23,7 +23,7 @@ resource "azurerm_federated_identity_credential" "GithubActionsManagedIdentityFe
   resource_group_name = azurerm_resource_group.resourceGroup.name
   audience            = ["api://AzureADTokenExchange"]
   issuer              = "https://token.actions.githubusercontent.com"
-  subject             = "repo:fullstacksandbox23/reveal_dtu_learn:environment:${terraform.workspace}"
+  subject             = "repo:fullstacksandbox23/ChatGMP:environment:${terraform.workspace}"
 }
 
 
