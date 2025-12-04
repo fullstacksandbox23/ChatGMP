@@ -1,0 +1,20 @@
+name: dev-chatgmp
+services:
+  chatgmp:
+    build:
+    env_file:
+      - .env
+    ports:
+      - "80:80"
+    volumes:
+      - dev-app-data:/data
+      - ./chatgmp/:/app
+    restart: unless-stopped
+    networks:
+      - dev_network
+
+volumes:
+  dev-app-data:
+
+networks:
+  dev_network:
