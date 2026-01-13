@@ -139,20 +139,6 @@ jobs:
           tenant-id: ${{ vars.AZURE_TENANT_ID }}
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
-      # - name: Set workspace
-      #   run: |
-      #     if [ ${{ github.ref }} == 'refs/heads/dev' || github.event.workflow_run.head_branch == 'dev' ]; then
-      #       echo "WORKSPACE=dev" >> "$GITHUB_ENV"
-      #     elif [ ${{ github.ref }} == 'refs/heads/stage' || github.event.workflow_run.head_branch == 'stage' ]; then
-      #       echo "WORKSPACE=stage" >> "$GITHUB_ENV"
-      #     elif [ ${{ github.ref }} == 'refs/heads/main' || github.event.workflow_run.head_branch == 'main' ]; then
-      #       echo "WORKSPACE=prod" >> "$GITHUB_ENV"
-      #     else
-      #       echo "This branch does not support deployment"
-      #       exit 1
-      #     fi
-      #     echo "WORKSPACE=${WORKSPACE}"
-
       - name: Compute lowercase repo
         run: echo "REPOSITORY_NAME_LOWER=${GITHUB_REPOSITORY,,}" >> "$GITHUB_ENV"
 
