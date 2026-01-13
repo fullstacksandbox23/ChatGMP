@@ -83,21 +83,21 @@ jobs:
       - name: Build for production
         run: ./scripts/build_chatgmp.sh
 
-    #   - name: Show images
-    #     run: docker image list
+      - name: Show images
+        run: docker image list
 
-    #   - name: Tag and push with latest and commit hash
-    #     run: |
-    #       docker tag \
-    #         slides_prod-chatgmp:latest \
-    #         ${{env.REGISTRY}}/${{github.repository}}-chatgmp:latest
-    #       docker tag \
-    #         slides_prod-chatgmp:latest \
-    #         ${{env.REGISTRY}}/${{github.repository}}-chatgmp:$COMMIT_SHA
-    #       docker push \
-    #         ${{env.REGISTRY}}/${{github.repository}}-chatgmp:latest
-    #       docker push \
-    #         ${{env.REGISTRY}}/${{github.repository}}-chatgmp:$COMMIT_SHA
+      - name: Tag and push with latest and commit hash
+        run: |
+          docker tag \
+            slides_prod-chatgmp:latest \
+            ${{env.REGISTRY}}/${{github.repository}}-chatgmp:latest
+          docker tag \
+            slides_prod-chatgmp:latest \
+            ${{env.REGISTRY}}/${{github.repository}}-chatgmp:$COMMIT_SHA
+          docker push \
+            ${{env.REGISTRY}}/${{github.repository}}-chatgmp:latest
+          docker push \
+            ${{env.REGISTRY}}/${{github.repository}}-chatgmp:$COMMIT_SHA
 
   deploy:
     needs: build
