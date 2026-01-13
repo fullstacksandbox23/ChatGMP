@@ -1,0 +1,5 @@
+
+services:
+  chatgmp:
+    ports:
+      - "80:80"

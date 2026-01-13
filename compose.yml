@@ -1,0 +1,7 @@
+
+services:
+  chatgmp:
+    build:
+      context: ./chatgmp
+    volumes:
+      - ./chatgmp:/app
