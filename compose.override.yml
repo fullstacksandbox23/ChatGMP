@@ -1,4 +1,4 @@
-name: dev-chatgmp
+name: chatgmp_dev
 services:
   chatgmp:
     build:
