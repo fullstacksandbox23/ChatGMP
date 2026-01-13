@@ -34,8 +34,10 @@ def save_file(question, answer, dest_path):
 
 # @app.route("/documents")
 def show_document(doc_name):
-    path = 'C:/Users/fiacac/OneDrive - Danmarks Tekniske Universitet/Skrivebord/Research/chatgmp/static/'
-    os.startfile(f'{path}{doc_name}.pdf')
+    path = os.path.join(os.path.dirname(__file__), '../static/')
+    file_path = os.path.join(path, f'{doc_name}.pdf')
+    # os.startfile(f'{path}{doc_name}.pdf')  # Commented out for Docker compatibility
+    print(f"Document path: {file_path}")  # For debugging
     return ""
 
 def get_requested_document(cont):
