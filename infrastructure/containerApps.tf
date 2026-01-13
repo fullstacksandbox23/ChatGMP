@@ -61,7 +61,7 @@ resource "azurerm_container_app" "ChatGMP" {
   }
 
   ingress {
-    target_port                = 5000
+    target_port                = 80
     external_enabled           = true
     allow_insecure_connections = false # consider adding this
     traffic_weight {
