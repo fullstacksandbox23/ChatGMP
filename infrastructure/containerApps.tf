@@ -35,17 +35,17 @@ resource "azurerm_container_app" "ChatGMP" {
 
   # Never change the image of the container, as this is done in github actions!
   # TBD: uncomment the lifecycle block, when the infrastructure is deployed and working!
-  lifecycle {
-    ignore_changes = [template[0].container[0]] # secret, revision_mode, ingress
-  }
+  # lifecycle {
+  #   ignore_changes = [template[0].container[0]] # secret, revision_mode, ingress
+  # }
 
   template {
     container {
       name  = "chatgmp"
       image = "mcr.microsoft.com/azuredocs/containerapps-helloworld:latest"
       # Increase if the container side or CPU demands increase!
-      cpu    = 0.25    # 0.5
-      memory = "0.5Gi" # "1Gi"
+      cpu    = 0.75 # 0.25    # 0.5
+      memory = "1.5Gi" #"0.5Gi" # "1Gi"
       volume_mounts {
         name = "${terraform.workspace}-application-data"
         path = "/data"

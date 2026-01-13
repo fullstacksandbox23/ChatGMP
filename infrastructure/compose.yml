@@ -1,4 +1,4 @@
-name: slides_infrastructure
+name: chatgmp_infrastructure
 
 services:
     tofu:

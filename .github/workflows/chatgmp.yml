@@ -12,6 +12,8 @@ on:
   push:
     paths:
       - 'chatgmp/**'
+      - 'compose.yml'
+      - 'compose.prod.yml'
       - '.github/workflows/chatgmp.yml'
       - 'scripts/run_chatgmp_test.sh'
       - 'scripts/build_chatgmp.sh'
@@ -28,7 +30,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-        # TBD: add when container scripts are ready
+    # TBD: add when container scripts are ready
     #   - name: Run chatgmp test in Docker
     #     run: ./scripts/run_chatgmp_test.sh
 
@@ -56,7 +58,9 @@ jobs:
       infrastructure_changed: ${{ steps.check_for_infrastructure_change.outputs.infrastructure_changed }}
 
   build:
-    # only run if no infrastructure changes were detected, but do run, if the workflow was triggered by a workflow_run event (then the github.event.workflow_run.head_sha is not null)
+    # only run if no infrastructure changes were detected, but do run,
+    # if the workflow was triggered by a workflow_run event
+    # (then the github.event.workflow_run.head_sha is not null)
     # TBD: split into multiline if statement:
     if: ${{((github.event.ref == 'refs/heads/main' || github.event.ref == 'refs/heads/stage' || github.event.ref == 'refs/heads/dev') && needs.check_for_infrastructure_change.outputs.infrastructure_changed == 'FALSE' ) || ( ( github.event.workflow_run.head_branch == 'main' || github.event.workflow_run.head_branch == 'stage' || github.event.workflow_run.head_branch == 'stage' ) && github.event.workflow_run.name == 'Infrastructure' && github.event.workflow_run.conclusion == 'success') }}
     needs: [test, check_for_infrastructure_change]
@@ -79,25 +83,27 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-          # TBD: add when container scripts are ready
-    #   - name: Build for production
-    #     run: ./scripts/build_chatgmp.sh
+      - name: Build for production
+        run: ./scripts/build_chatgmp.sh
 
-    #   - name: Show images
-    #     run: docker image list
+      - name: Show images
+        run: docker image list
 
-    #   - name: Tag and push with latest and commit hash
-    #     run: |
-    #       docker tag \
-    #         slides_prod-chatgmp:latest \
-    #         ${{env.REGISTRY}}/${{github.repository}}-chatgmp:latest
-    #       docker tag \
-    #         slides_prod-chatgmp:latest \
-    #         ${{env.REGISTRY}}/${{github.repository}}-chatgmp:$COMMIT_SHA
-    #       docker push \
-    #         ${{env.REGISTRY}}/${{github.repository}}-chatgmp:latest
-    #       docker push \
-    #         ${{env.REGISTRY}}/${{github.repository}}-chatgmp:$COMMIT_SHA
+      - name: Compute lowercase repo
+        run: echo "REPOSITORY_NAME_LOWER=${GITHUB_REPOSITORY,,}" >> "$GITHUB_ENV"
+
+      - name: Tag and push with latest and commit hash
+        run: |
+          docker tag \
+            chatgmp_prod-chatgmp:latest \
+            ${{env.REGISTRY}}/${{env.REPOSITORY_NAME_LOWER}}-chatgmp:latest
+          docker tag \
+            chatgmp_prod-chatgmp:latest \
+            ${{env.REGISTRY}}/${{env.REPOSITORY_NAME_LOWER}}-chatgmp:$COMMIT_SHA
+          docker push \
+            ${{env.REGISTRY}}/${{env.REPOSITORY_NAME_LOWER}}-chatgmp:latest
+          docker push \
+            ${{env.REGISTRY}}/${{env.REPOSITORY_NAME_LOWER}}-chatgmp:$COMMIT_SHA
 
   deploy:
     needs: build
@@ -108,7 +114,6 @@ jobs:
     permissions:
       id-token: write
       packages: read
-    # environment: dev
     environment: |-
       ${{
         (( github.ref == 'refs/heads/dev' || github.event.workflow_run.head_branch == 'dev' )) && 'dev' ||
@@ -136,27 +141,15 @@ jobs:
           tenant-id: ${{ vars.AZURE_TENANT_ID }}
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
-      # - name: Set workspace
-      #   run: |
-      #     if [ ${{ github.ref }} == 'refs/heads/dev' || github.event.workflow_run.head_branch == 'dev' ]; then
-      #       echo "WORKSPACE=dev" >> "$GITHUB_ENV"
-      #     elif [ ${{ github.ref }} == 'refs/heads/stage' || github.event.workflow_run.head_branch == 'stage' ]; then
-      #       echo "WORKSPACE=stage" >> "$GITHUB_ENV"
-      #     elif [ ${{ github.ref }} == 'refs/heads/main' || github.event.workflow_run.head_branch == 'main' ]; then
-      #       echo "WORKSPACE=prod" >> "$GITHUB_ENV"
-      #     else
-      #       echo "This branch does not support deployment"
-      #       exit 1
-      #     fi
-      #     echo "WORKSPACE=${WORKSPACE}"
+      - name: Compute lowercase repo
+        run: echo "REPOSITORY_NAME_LOWER=${GITHUB_REPOSITORY,,}" >> "$GITHUB_ENV"
 
-      # TBD: add when container scripts are ready
-    #   - name: Deploy
-    #     run: |
-    #       az containerapp update \
-    #         --name ${{ vars.AZURE_CONTAINERAPP_CHATGMP }} \
-    #         --resource-group ${{vars.AZURE_RESOURCE_GROUP}} \
-    #         --image ${{env.REGISTRY}}/${{github.repository}}-chatgmp:$COMMIT_SHA
+      - name: Deploy
+        run: |
+          az containerapp update \
+            --name ${{ vars.AZURE_CONTAINERAPP_CHATGMP }} \
+            --resource-group ${{vars.AZURE_RESOURCE_GROUP}} \
+            --image ${{env.REGISTRY}}/${{env.REPOSITORY_NAME_LOWER}}-chatgmp:$COMMIT_SHA
 
       - name: Logout from Azure
         uses: azure/CLI@v2

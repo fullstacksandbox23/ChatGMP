@@ -1,11 +1,11 @@
-name: dev-chatgmp
+name: chatgmp_dev
 services:
   chatgmp:
     build:
     env_file:
       - .env
     ports:
-      - "80:80"
+      - "5001:80"
     volumes:
       - dev-app-data:/data
       - ./chatgmp/:/app
