@@ -1,4 +1,4 @@
-name: test-chatgmp
+name: chatgmp_test
 
 services:
   chatgmp:

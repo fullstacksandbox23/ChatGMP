@@ -92,10 +92,10 @@ jobs:
       - name: Tag and push with latest and commit hash
         run: |
           docker tag \
-            slides_prod-chatgmp:latest \
+            chatgmp_prod-chatgmp:latest \
             ${{env.REGISTRY}}/${{env.REPOSITORY_NAME_LOWER}}-chatgmp:latest
           docker tag \
-            slides_prod-chatgmp:latest \
+            chatgmp_prod-chatgmp:latest \
             ${{env.REGISTRY}}/${{env.REPOSITORY_NAME_LOWER}}-chatgmp:$COMMIT_SHA
           docker push \
             ${{env.REGISTRY}}/${{env.REPOSITORY_NAME_LOWER}}-chatgmp:latest

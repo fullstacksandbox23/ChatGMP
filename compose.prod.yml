@@ -1,3 +1,4 @@
+name: chatgmp_prod
 
 services:
   chatgmp:
