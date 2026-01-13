@@ -49,6 +49,12 @@ resource "azurerm_resource_group" "resourceGroup" {
   }
 }
 
+resource "azurerm_role_assignment" "SecondDeveloperRoleResourceGroup" {
+  scope                = azurerm_resource_group.resourceGroup.id
+  role_definition_name = "Contributor"
+  principal_id         = var.second_owner_object_id
+}
+
 resource "azurerm_monitor_action_group" "actionGroup" {
   name                = "${var.project_name}-actionGroup-${terraform.workspace}"
   resource_group_name = azurerm_resource_group.resourceGroup.name
