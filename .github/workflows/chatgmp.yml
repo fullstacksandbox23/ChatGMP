@@ -12,6 +12,8 @@ on:
   push:
     paths:
       - 'chatgmp/**'
+      - 'compose.yml'
+      - 'compose.prod.yml'
       - '.github/workflows/chatgmp.yml'
       - 'scripts/run_chatgmp_test.sh'
       - 'scripts/build_chatgmp.sh'
