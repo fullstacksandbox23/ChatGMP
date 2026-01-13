@@ -112,7 +112,6 @@ jobs:
     permissions:
       id-token: write
       packages: read
-    # environment: dev
     environment: |-
       ${{
         (( github.ref == 'refs/heads/dev' || github.event.workflow_run.head_branch == 'dev' )) && 'dev' ||
