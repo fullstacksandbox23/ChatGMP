@@ -86,18 +86,21 @@ jobs:
       - name: Show images
         run: docker image list
 
+      - name: Compute lowercase repo
+        run: echo "REPOSITORY_NAME_LOWER=${GITHUB_REPOSITORY,,}" >> "$GITHUB_ENV"
+
       - name: Tag and push with latest and commit hash
         run: |
           docker tag \
             slides_prod-chatgmp:latest \
-            ${{env.REGISTRY}}/${{github.repository}}-chatgmp:latest
+            ${{env.REGISTRY}}/${{env.REPOSITORY_NAME_LOWER}}-chatgmp:latest
           docker tag \
             slides_prod-chatgmp:latest \
-            ${{env.REGISTRY}}/${{github.repository}}-chatgmp:$COMMIT_SHA
+            ${{env.REGISTRY}}/${{env.REPOSITORY_NAME_LOWER}}-chatgmp:$COMMIT_SHA
           docker push \
-            ${{env.REGISTRY}}/${{github.repository}}-chatgmp:latest
+            ${{env.REGISTRY}}/${{env.REPOSITORY_NAME_LOWER}}-chatgmp:latest
           docker push \
-            ${{env.REGISTRY}}/${{github.repository}}-chatgmp:$COMMIT_SHA
+            ${{env.REGISTRY}}/${{env.REPOSITORY_NAME_LOWER}}-chatgmp:$COMMIT_SHA
 
   deploy:
     needs: build
@@ -150,13 +153,16 @@ jobs:
       #     fi
       #     echo "WORKSPACE=${WORKSPACE}"
 
+      - name: Compute lowercase repo
+        run: echo "REPOSITORY_NAME_LOWER=${GITHUB_REPOSITORY,,}" >> "$GITHUB_ENV"
+
       # TBD: add when container scripts are ready
       - name: Deploy
         run: |
           az containerapp update \
             --name ${{ vars.AZURE_CONTAINERAPP_CHATGMP }} \
             --resource-group ${{vars.AZURE_RESOURCE_GROUP}} \
-            --image ${{env.REGISTRY}}/${{github.repository}}-chatgmp:$COMMIT_SHA
+            --image ${{env.REGISTRY}}/${{env.REPOSITORY_NAME_LOWER}}-chatgmp:$COMMIT_SHA
 
       - name: Logout from Azure
         uses: azure/CLI@v2
