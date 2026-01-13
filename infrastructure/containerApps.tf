@@ -44,8 +44,8 @@ resource "azurerm_container_app" "ChatGMP" {
       name  = "chatgmp"
       image = "mcr.microsoft.com/azuredocs/containerapps-helloworld:latest"
       # Increase if the container side or CPU demands increase!
-      cpu    = 0.25    # 0.5
-      memory = "0.5Gi" # "1Gi"
+      cpu    = 0.75 # 0.25    # 0.5
+      memory = "1.5Gi" #"0.5Gi" # "1Gi"
       volume_mounts {
         name = "${terraform.workspace}-application-data"
         path = "/data"
