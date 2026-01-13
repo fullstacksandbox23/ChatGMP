@@ -18,6 +18,15 @@ resource "azurerm_container_app_environment" "ContainerEnvironment" {
   }
 }
 
+resource "azurerm_container_app_environment_storage" "applicationDataConnect" {
+  name                         = "${var.project_short_name}-appdataconnect-${terraform.workspace}"
+  container_app_environment_id = azurerm_container_app_environment.ContainerEnvironment.id
+  account_name                 = azurerm_storage_account.storage.name
+  access_key                   = azurerm_storage_account.storage.primary_access_key
+  share_name                   = azurerm_storage_share.applicationData.name
+  access_mode                  = "ReadWrite"
+}
+
 resource "azurerm_container_app" "ChatGMP" {
   name                         = "${var.project_short_name}-chatgmp-${terraform.workspace}"
   container_app_environment_id = azurerm_container_app_environment.ContainerEnvironment.id
@@ -37,6 +46,15 @@ resource "azurerm_container_app" "ChatGMP" {
       # Increase if the container side or CPU demands increase!
       cpu    = 0.25    # 0.5
       memory = "0.5Gi" # "1Gi"
+      volume_mounts {
+        name = "${terraform.workspace}-application-data"
+        path = "/data"
+      }
+    }
+    volume {
+      name         = "${terraform.workspace}-application-data"
+      storage_name = azurerm_container_app_environment_storage.applicationDataConnect.name
+      storage_type = "AzureFile"
     }
     min_replicas = terraform.workspace == "dev" || terraform.workspace == "stage" ? 0 : 1
     max_replicas = 10
