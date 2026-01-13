@@ -80,8 +80,8 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
           # TBD: add when container scripts are ready
-    #   - name: Build for production
-    #     run: ./scripts/build_chatgmp.sh
+      - name: Build for production
+        run: ./scripts/build_chatgmp.sh
 
     #   - name: Show images
     #     run: docker image list
@@ -151,12 +151,12 @@ jobs:
       #     echo "WORKSPACE=${WORKSPACE}"
 
       # TBD: add when container scripts are ready
-    #   - name: Deploy
-    #     run: |
-    #       az containerapp update \
-    #         --name ${{ vars.AZURE_CONTAINERAPP_CHATGMP }} \
-    #         --resource-group ${{vars.AZURE_RESOURCE_GROUP}} \
-    #         --image ${{env.REGISTRY}}/${{github.repository}}-chatgmp:$COMMIT_SHA
+      - name: Deploy
+        run: |
+          az containerapp update \
+            --name ${{ vars.AZURE_CONTAINERAPP_CHATGMP }} \
+            --resource-group ${{vars.AZURE_RESOURCE_GROUP}} \
+            --image ${{env.REGISTRY}}/${{github.repository}}-chatgmp:$COMMIT_SHA
 
       - name: Logout from Azure
         uses: azure/CLI@v2

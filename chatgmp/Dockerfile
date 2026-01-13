@@ -7,7 +7,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
-WORKDIR /app/src/interface
+WORKDIR /app/interface
 
 EXPOSE 5000
 

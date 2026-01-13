@@ -5,7 +5,7 @@ services:
     env_file:
       - .env
     ports:
-      - "80:80"
+      - "5001:5000"
     volumes:
       - dev-app-data:/data
       - ./chatgmp/:/app
