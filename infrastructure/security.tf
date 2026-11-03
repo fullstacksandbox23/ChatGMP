@@ -15,6 +15,8 @@ resource "azurerm_key_vault" "keyVault" {
   name                        = "${var.project_short_name}-keyVault-${terraform.workspace}"
   location                    = azurerm_resource_group.resourceGroup.location
   resource_group_name         = azurerm_resource_group.resourceGroup.name
+  # Required since azurerm 5.0; false because this vault uses access_policy blocks instead of role-based access control (RBAC).
+  rbac_authorization_enabled = false
   enabled_for_disk_encryption = true
   tenant_id                   = var.azure_tenant_id
   soft_delete_retention_days  = 30

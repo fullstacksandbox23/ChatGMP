@@ -14,7 +14,7 @@ on:
 env:
   # Configuration for pipeline
   COMMIT_SHA: ${{ github.sha }}
-  TOFU_VERSION: 1.8.2
+  TOFU_VERSION: 1.13.2
   # Configuration of backend for infrastructure state:
   AZ_RESOURCE_GROUP_NAME: ${{ secrets.AZ_RESOURCE_GROUP_NAME }}
   AZ_STORAGE_ACCOUNT_NAME: ${{ secrets.AZ_STORAGE_ACCOUNT_NAME }}
