@@ -58,7 +58,7 @@ jobs:
         working-directory: infrastructure
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Install Azure CLI
         run: |
@@ -74,7 +74,7 @@ jobs:
       # # Login as user instead via --use-device-code?
       # - name: Login to Azure
       #   # if: ${{ steps.tofu_plan.outputs.exitcode == 2 }}
-      #   uses: azure/login@v2
+      #   uses: azure/login@v3
       #   with:
       #     # use the client_id from above registered identity
       #     # client-id: ${{ secrets.AZURE_GITHUBACTIONSMANAGEDIDENTITY_CLIENT_ID }}
@@ -127,7 +127,7 @@ jobs:
 
 
       - name: Setup OpenTofu
-        uses: opentofu/setup-opentofu@v1
+        uses: opentofu/setup-opentofu@v2
         with:
           tofu_version: ${{ env.TOFU_VERSION }}
 
@@ -148,7 +148,7 @@ jobs:
 
       # commit the lock file to the repository - if changed?
       - name: Commit .terraform.lock.hcl file
-        uses: EndBug/add-and-commit@v9
+        uses: EndBug/add-and-commit@v10
         with:
             add: 'infrastructure/.terraform.lock.hcl'
             fetch: false
@@ -178,7 +178,7 @@ jobs:
 
       # - name: Login to Azure
       #   if: ${{ steps.tofu_plan.outputs.exitcode == 2 }}
-      #   uses: azure/login@v2
+      #   uses: azure/login@v3
       #   with:
       #     # use the client_id from above registered identity
       #     client-id: ${{ secrets.AZURE_GITHUBACTIONSMANAGEDIDENTITY_CLIENT_ID }}
@@ -210,7 +210,7 @@ jobs:
         working-directory: infrastructure
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Install Azure CLI
         run: |
@@ -238,7 +238,7 @@ jobs:
           echo "WORKSPACE=${WORKSPACE}"
 
       # - name: Login to Azure
-      #   uses: azure/login@v2
+      #   uses: azure/login@v3
       #   with:
       #     # use the client_id from above registered identity
       #     client-id: ${{ secrets.AZURE_GITHUBACTIONSMANAGEDIDENTITY_CLIENT_ID }}
@@ -256,7 +256,7 @@ jobs:
             --file ${WORKSPACE}_${COMMIT_SHA}.tfplan
 
       - name: Setup OpenTofu
-        uses: opentofu/setup-opentofu@v1
+        uses: opentofu/setup-opentofu@v2
         with:
           tofu_version: ${{ env.TOFU_VERSION }}
 
