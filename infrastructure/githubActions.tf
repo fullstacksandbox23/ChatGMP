@@ -18,12 +18,11 @@ resource "azurerm_role_assignment" "GithubActionsManagedIdentityRoleResourceGrou
 }
 
 resource "azurerm_federated_identity_credential" "GithubActionsManagedIdentityFederatedCredential" {
-  parent_id           = azurerm_user_assigned_identity.GithubActionsManagedIdentity.id
-  name                = "${var.project_name}-githubActionsFederatedIdentityCredentials-${terraform.workspace}"
-  resource_group_name = azurerm_resource_group.resourceGroup.name
-  audience            = ["api://AzureADTokenExchange"]
-  issuer              = "https://token.actions.githubusercontent.com"
-  subject             = "repo:fullstacksandbox23/ChatGMP:environment:${terraform.workspace}"
+  user_assigned_identity_id = azurerm_user_assigned_identity.GithubActionsManagedIdentity.id
+  name                      = "${var.project_name}-githubActionsFederatedIdentityCredentials-${terraform.workspace}"
+  audience                  = ["api://AzureADTokenExchange"]
+  issuer                    = "https://token.actions.githubusercontent.com"
+  subject                   = "repo:fullstacksandbox23/ChatGMP:environment:${terraform.workspace}"
 }
 
 
