@@ -5,11 +5,26 @@ resource "azurerm_log_analytics_workspace" "logAnalytics" {
   sku                 = "PerGB2018"
 }
 
+resource "azurerm_monitor_diagnostic_setting" "ContainerEnvironmentLogs" {
+  name                           = "${var.project_name}-container-logs-${terraform.workspace}"
+  target_resource_id             = azurerm_container_app_environment.ContainerEnvironment.id
+  log_analytics_workspace_id     = azurerm_log_analytics_workspace.logAnalytics.id
+  log_analytics_destination_type = "Dedicated"
+
+  enabled_log {
+    category = "ContainerAppConsoleLogs"
+  }
+
+  enabled_log {
+    category = "ContainerAppSystemLogs"
+  }
+}
+
 resource "azurerm_container_app_environment" "ContainerEnvironment" {
-  name                       = "${var.project_name}-containers-${terraform.workspace}"
-  location                   = azurerm_resource_group.resourceGroup.location
-  resource_group_name        = azurerm_resource_group.resourceGroup.name
-  log_analytics_workspace_id = azurerm_log_analytics_workspace.logAnalytics.id
+  name                = "${var.project_name}-containers-${terraform.workspace}"
+  location            = azurerm_resource_group.resourceGroup.location
+  resource_group_name = azurerm_resource_group.resourceGroup.name
+  logs_destination    = "azure-monitor"
 
   tags = {
     Costcenter  = var.costcenter
@@ -45,7 +60,7 @@ resource "azurerm_container_app" "ChatGMP" {
       image = "mcr.microsoft.com/azuredocs/containerapps-helloworld:latest"
       # Increase if the container side or CPU demands increase!
       cpu    = 1.0 # 0.75 # 0.25    # 0.5
-      memory = "2.0Gi" # "1.5Gi" #"0.5Gi" # "1Gi"
+      memory = "2Gi" # "1.5Gi" #"0.5Gi" # "1Gi"
       volume_mounts {
         name = "${terraform.workspace}-application-data"
         path = "/data"
