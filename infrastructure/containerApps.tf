@@ -6,10 +6,9 @@ resource "azurerm_log_analytics_workspace" "logAnalytics" {
 }
 
 resource "azurerm_monitor_diagnostic_setting" "ContainerEnvironmentLogs" {
-  name                           = "${var.project_name}-container-logs-${terraform.workspace}"
-  target_resource_id             = azurerm_container_app_environment.ContainerEnvironment.id
-  log_analytics_workspace_id     = azurerm_log_analytics_workspace.logAnalytics.id
-  log_analytics_destination_type = "Dedicated"
+  name                       = "${var.project_name}-container-logs-${terraform.workspace}"
+  target_resource_id         = azurerm_container_app_environment.ContainerEnvironment.id
+  log_analytics_workspace_id = azurerm_log_analytics_workspace.logAnalytics.id
 
   enabled_log {
     category = "ContainerAppConsoleLogs"
@@ -46,7 +45,7 @@ resource "azurerm_container_app" "ChatGMP" {
   name                         = "${var.project_short_name}-chatgmp-${terraform.workspace}"
   container_app_environment_id = azurerm_container_app_environment.ContainerEnvironment.id
   resource_group_name          = azurerm_resource_group.resourceGroup.name
-  revision_mode = "Single"
+  revision_mode                = "Single"
 
   # Never change the image of the container, as this is done in github actions!
   # TBD: uncomment the lifecycle block, when the infrastructure is deployed and working!
@@ -59,7 +58,7 @@ resource "azurerm_container_app" "ChatGMP" {
       name  = "chatgmp"
       image = "mcr.microsoft.com/azuredocs/containerapps-helloworld:latest"
       # Increase if the container side or CPU demands increase!
-      cpu    = 1.0 # 0.75 # 0.25    # 0.5
+      cpu    = 1.0   # 0.75 # 0.25    # 0.5
       memory = "2Gi" # "1.5Gi" #"0.5Gi" # "1Gi"
       volume_mounts {
         name = "${terraform.workspace}-application-data"
@@ -80,7 +79,7 @@ resource "azurerm_container_app" "ChatGMP" {
     external_enabled           = true
     allow_insecure_connections = false # consider adding this
     traffic_weight {
-      percentage = 100
+      percentage      = 100
       latest_revision = true
     }
   }
