@@ -5,7 +5,21 @@ provider "registry.opentofu.org/hashicorp/azurerm" {
   version     = "5.12.0"
   constraints = "5.12.0"
   hashes = [
+    "h1:/n0E1adviBCp/OEKoav4mnyXuJqNSs2H/Pm4fNdlGps=",
+    "h1:1RbucbezVd5JwFygABXLweLloIJi6zTROEY/OqTWIBs=",
+    "h1:91V6W8JE5KwfrbCDBrnzDS3Y8SpebgB1CXw8/E1t4A8=",
+    "h1:BKlFJI7eJMjGYiqQnEabB+YZyJchd6C1dRrTgNNMU/g=",
+    "h1:GOeyxJDuxqWCFx0U46HQAC/Hud5VOlndVnHdUmT9MLA=",
+    "h1:QE14EFWu6gyrP6mLqo0jas5da2w6ipsQsGw6nvesqOI=",
     "h1:Vq25OyLVgRMaJH1umIOpXazKGDX8K9/+9Hxn4+nUiJA=",
+    "h1:WnAqUunH1TUar0Q9Oo3HN3n7ZXpiHXQbxJmxvaiSEco=",
+    "h1:kp/14+SpLwEY+w1I2fvuncx7NYO9V3r20DuWF0GyPMo=",
+    "h1:nxgb+katJHiiRY3iDE+D44UNq612go2J6rEMEYVXlN8=",
+    "h1:oJfOUbUXmZZ++64qzHZYNlOMKl9WRg/yJMalgPbE8kY=",
+    "h1:tFHN8JmfNI/Q4La1xbm/PuUQ81uvUV32Naw+tK/+77Q=",
+    "h1:tlX0oM8Cm8D04MWB5xcHwfSlV9rRR4C+1Ub1tZJoBsU=",
+    "h1:wyHWnP5A9PWD+NUbv3mxS15KP+0eMrblmhVSZu7ce1M=",
+    "h1:y9Q2tY+3n+T4oqArGCRm6Yay02VzcgJE7Okbrqknc3Q=",
     "zh:1764f0a448dba527b1f7f00ae1618acaa4e9aee3653d1750ae2e4243bfa7d0d5",
     "zh:36791fd5daee2fc37b1388cfc658d35a163a93f6bd00de9252d90c77ba484c7e",
     "zh:6713dc3baf9ecf1633ad8997b709e76526d862e948130fdb98d2761e24c200b5",
